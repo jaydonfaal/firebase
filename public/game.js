@@ -4,8 +4,12 @@ var gamePattern = []
 var userClickedPattern = []
 var level = 0
 var start = false
+window.localStorage.highScore;
+
+$(".score").text("High Score " + window.localStorage.highScore)
 
 function nextSequence() {
+
   var randomNumber = Math.floor(Math.random() * 4)
   var randomColour = colours[randomNumber]
   gamePattern.push(randomColour)
@@ -13,13 +17,12 @@ function nextSequence() {
 
 
 function animatePress(colour) {
-  $("#" + colour).addClass("pressed"+colour)
+  $("#" + colour).addClass("pressed")
 
   setTimeout(function() {
-    $("#" + colour).removeClass("pressed"+colour)
+    $("#" + colour).removeClass("pressed")
   }, 300)
 }
-
 
 
 function showGamePattern() {
@@ -28,16 +31,19 @@ function showGamePattern() {
   let pattern = setInterval(thisFunction, 1000)
 
   function thisFunction() {
+
     if (start < gamePattern.length) {
       var currentColour = gamePattern[start]
       animatePress(currentColour)
       start++
     }
+
     else {
       clearInterval(pattern)
     }
   }
 }
+
 
 function subList() {
   for (var i = 0; i < userClickedPattern.length; i++) {
@@ -54,17 +60,19 @@ function gameOver() {
   gamePattern = []
   start = false
 
+
   $('body').addClass("lose")
   $(".header").text("Game Over!!")
 
   setTimeout(function() {
     $('body').removeClass("lose")
-    $(".header").text("Press Play Game to restart")
+    $(".header").text("Press any key to restart")
   }, 1000)
 }
 
 
-document.getElementById("play").addEventListener("click", function() {
+$(document).on("keypress", function(event) {
+
   if (!start) {
     start = true
     nextSequence()
@@ -72,7 +80,8 @@ document.getElementById("play").addEventListener("click", function() {
     $(".header").text("Level " + level)
     console.log(gamePattern)
   }
-});
+})
+
 
 
 $('.btn').on("click", function(event) {
@@ -89,15 +98,24 @@ $('.btn').on("click", function(event) {
 
     if (subList() && userClickedPattern.length === gamePattern.length) {
 
+
       level++
       userClickedPattern = []
       nextSequence()
       showGamePattern()
       $(".header").text("Level " + level)
+
+      if(window.localStorage.highScore < level)
+      {
+        window.localStorage.highScore = level
+        $(".score").text("High Score " + window.localStorage.highScore)
+      }
+      console.log(window.localStorage.highScore = level)
     }
 
 
     else if (!subList()) {
+
 
       gameOver()
     }
