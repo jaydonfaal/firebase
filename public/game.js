@@ -4,7 +4,7 @@ var gamePattern = []
 var userClickedPattern = []
 var level = 0
 var start = false
-window.localStorage.highScore;
+
 
 $(".score").text("High Score " + window.localStorage.highScore)
 
@@ -26,7 +26,6 @@ function animatePress(colour) {
 
 
 function showGamePattern() {
-
   let start = 0
   let pattern = setInterval(thisFunction, 1000)
 
@@ -41,6 +40,7 @@ function showGamePattern() {
     else {
       clearInterval(pattern)
     }
+
   }
 }
 
@@ -59,7 +59,10 @@ function gameOver() {
   userClickedPattern = []
   gamePattern = []
   start = false
-
+  document.getElementById("red").disabled = true;
+  document.getElementById("blue").disabled = true;
+  document.getElementById("green").disabled = true;
+  document.getElementById("yellow").disabled = true;
 
   $('body').addClass("lose")
   $(".header").text("Game Over!!")
@@ -72,6 +75,10 @@ function gameOver() {
 
 
 $(document).on("keypress", function(event) {
+  document.getElementById("red").disabled = false;
+  document.getElementById("blue").disabled = false;
+  document.getElementById("green").disabled = false;
+  document.getElementById("yellow").disabled = false;
 
   if (!start) {
     start = true
