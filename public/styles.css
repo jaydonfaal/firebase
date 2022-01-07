@@ -1,5 +1,5 @@
 body {
-  background-image: url('222.jpg');
+  background-image: url('./buttons/222.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   text-align: center;
@@ -8,12 +8,22 @@ body {
 
 }
 
+
 .header {
-  margin: 50px 0;
+
   color: #FAFF1D;
   padding-left: 5vh;
   font-family: 'Press Start 2P', cursive;
 }
+.inner {
+  position: absolute;
+}
+.score {
+  color: #FAFF1D;
+  padding-left: 5vh;
+  font-family: 'Press Start 2P', cursive;
+}
+
 .container{
   padding-top: 70vh;
 align-items: center;
@@ -30,9 +40,9 @@ display: flex;
 display: inline-block;
   border-radius: 8px;
   transition: all 0.3s ease;
-  height: 300px;
+  height: 200px;
   float: right;
-  width: 300px;
+  width: 200px;
   text-align: center;
   display: inline-block;
   color: black;
@@ -61,26 +71,35 @@ display: inline-block;
 
 
 .pressedyellow {
-  box-shadow: 0 0 60px yellow;
+  box-shadow: 0 0 80px yellow;
   background-color: yellow;
+  border:30px solid yellow;
+outline-color:yellow;
+outline-style:inset;
 }
-.pressedred {
-  box-shadow: 0 0 60px red;
-  background-color: red;
+.pressed {
+  box-shadow: 0 0 80px magenta;
+  background-color: magenta;
+  border:30px solid magenta;
+outline-color: magenta;
+outline-style:inset;
 }
 .presedblue {
-  box-shadow: 0 0 60px blue;
+  box-shadow: 0 0 80px blue;
   background-color: blue;
+  border:30px solid blue;
+outline-color:blue;
+outline-style:inset;
 }
 .pressedgreen {
-  box-shadow: 0 0 60px green;
+  box-shadow: 0 0 80px green;
   background-color: green;
+  border:30px solid green;
+outline-color:green;
+outline-style:inset;
 }
 
-.lose {
-  background-color: red;
-}
-$easeInOutQuad: cubic-bezier(0.455, 0.030, 0.515, 0.955);
+
 
 body {
     background:#111;
@@ -109,16 +128,15 @@ body {
   height: 100px;
 }
 
-.active{
-  background-color: white;
-}
+
 
 h2 {
   font-size: 13rem;
   font-weight: 200;
+  padding-top: 15vh;
+  padding-left: 15vh;
   font-style: italic;
   color: #fff;
-
   padding: 4rem 6rem 5.5rem;
   border: 0.4rem solid #fff;
   border-radius: 2rem;
