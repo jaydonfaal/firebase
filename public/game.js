@@ -26,6 +26,10 @@ function animatePress(colour) {
 
 
 function showGamePattern() {
+  document.getElementById("red").disabled = true;
+  document.getElementById("blue").disabled = true;
+  document.getElementById("green").disabled = true;
+  document.getElementById("yellow").disabled = true;
   let start = 0
   let pattern = setInterval(thisFunction, 1000)
 
@@ -42,6 +46,10 @@ function showGamePattern() {
     }
 
   }
+  document.getElementById("red").disabled = false;
+  document.getElementById("blue").disabled = false;
+  document.getElementById("green").disabled = false;
+  document.getElementById("yellow").disabled = false;
 }
 
 
@@ -81,6 +89,7 @@ $(document).on("keypress", function(event) {
   document.getElementById("yellow").disabled = false;
 
   if (!start) {
+
     start = true
     nextSequence()
     showGamePattern()
