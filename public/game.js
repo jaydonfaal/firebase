@@ -1,139 +1,94 @@
-
-const colours = ['blue', 'red', 'yellow', 'green']
-var gamePattern = []
-var userClickedPattern = []
-var level = 0
-window.localStorage.highScore = undefined;
-var start = false
-
-if(window.localStorage.highScore == undefined)
-{
-$(".score").text("High Score 0")
-}
-else {
-$(".score").text("High Score " + window.localStorage.highScore)
-}
-
-function nextSequence() {
-
-  var randomNumber = Math.floor(Math.random() * 4)
-  var randomColour = colours[randomNumber]
-  gamePattern.push(randomColour)
-}
-
-
-function animatePress(colour) {
-  $("#" + colour).addClass("pressed")
-
-  setTimeout(function() {
-    $("#" + colour).removeClass("pressed")
-  }, 300)
-}
-
-function showGamePattern() {
-
-  let start = 0
-  let pattern = setInterval(thisFunction, 1000)
-
-  function thisFunction() {
-
-    if (start < gamePattern.length) {
-      var currentColour = gamePattern[start]
-      animatePress(currentColour)
-      start++
+let App = {
+  colours: ['blue', 'red', 'yellow', 'green'],
+  gamePattern: [],
+  userClickedPattern: [],
+  level: 0,
+  start: false,
+  nextSequence: function() {
+    var randomNumber = Math.floor(Math.random() * 4);
+    var randomColour = this.colours[randomNumber];
+    this.gamePattern.push(randomColour);
+  },
+  animatePress: function(colour) {
+    $("#" + colour).addClass("pressed");
+    setTimeout(function() {
+      $("#" + colour).removeClass("pressed");
+    }, 300);
+  },
+  showGamePattern: function() {
+    let s = 0;
+    let pattern = setInterval(() => {
+      if (s < this.gamePattern.length) {
+        var currentColour = this.gamePattern[s];
+        this.animatePress(currentColour);
+        s++;
+      } else {
+        clearInterval(pattern);
+      }
+    }, 1000);
+  },
+  subList: function() {
+    for (var i = 0; i < this.userClickedPattern.length; i++) {
+      if (this.userClickedPattern[i] != this.gamePattern[i]) return false;
     }
+    return true;
+  },
+  gameOver: function() {
+    this.level = 0;
+    this.userClickedPattern = [];
+    this.gamePattern = [];
+    this.start = false;
+    document.getElementById("red").disabled = true;
+    document.getElementById("blue").disabled = true;
+    document.getElementById("green").disabled = true;
+    document.getElementById("yellow").disabled = true;
 
-    else {
-      clearInterval(pattern)
-    }
+    $('body').addClass("lose");
+    $(".header").text("Game Over!!");
 
+    setTimeout(function() {
+      $('body').removeClass("lose");
+      $(".header").text("Press any key to restart");
+    }, 1000);
   }
-
-
 }
 
-
-function subList() {
-  for (var i = 0; i < userClickedPattern.length; i++) {
-    if (userClickedPattern[i] != gamePattern[i]) return false
-  }
-
-  return true
+if (window.localStorage.highScore == undefined) {
+  $(".score").text("High Score 0");
+} else {
+  $(".score").text("High Score " + window.localStorage.highScore);
 }
-
-
-function gameOver() {
-  level = 0
-  userClickedPattern = []
-  gamePattern = []
-  start = false
-  document.getElementById("red").disabled = true;
-  document.getElementById("blue").disabled = true;
-  document.getElementById("green").disabled = true;
-  document.getElementById("yellow").disabled = true;
-
-  $('body').addClass("lose")
-  $(".header").text("Game Over!!")
-
-  setTimeout(function() {
-    $('body').removeClass("lose")
-    $(".header").text("Press any key to restart")
-  }, 1000)
-}
-
-
 $(document).on("keypress", function(event) {
   document.getElementById("red").disabled = false;
   document.getElementById("blue").disabled = false;
   document.getElementById("green").disabled = false;
   document.getElementById("yellow").disabled = false;
-
-  if (!start) {
-
-    start = true
-    nextSequence()
-    showGamePattern()
-    $(".header").text("Level " + level)
-    console.log(gamePattern)
+  if (!App.start) {
+    App.start = true;
+    App.nextSequence();
+    App.showGamePattern();
+    $(".header").text("Level " + App.level);
+    console.log(App.gamePattern);
   }
 })
-
-
-
 $('.btn').on("click", function(event) {
-  if (start) {
-
-
-    var userClickedButtonColour = event.target.id
-
-
-    animatePress(userClickedButtonColour)
-
-    userClickedPattern.push(userClickedButtonColour)
-
-
-    if (subList() && userClickedPattern.length === gamePattern.length) {
-
-
-      level++
-      userClickedPattern = []
-      nextSequence()
-      showGamePattern()
-      $(".header").text("Level " + level)
-
-      if(window.localStorage.highScore < level)
-      {
-        window.localStorage.highScore = level
-        $(".score").text("High Score " + window.localStorage.highScore)
+  if (App.start) {
+    var userClickedButtonColour = event.target.id;
+    App.animatePress(userClickedButtonColour);
+    App.userClickedPattern.push(userClickedButtonColour);
+    if (App.subList() && App.userClickedPattern.length === App.gamePattern.length) {
+      App.level++;
+      App.userClickedPattern = [];
+      App.nextSequence();
+      App.showGamePattern();
+      $(".header").text("Level " + App.level);
+      if (window.localStorage.highScore < App.level) {
+        window.localStorage.highScore = App.level;
+        $(".score").text("High Score " + window.localStorage.highScore);
       }
-      console.log(window.localStorage.highScore = level)
-    }
-
-
-    else if (!subList()) {
-
-
-      gameOver()
+      console.log(window.localStorage.highScore = App.level);
+    } else if (!App.subList()) {
+      App.gameOver();
     }
   }
 })
