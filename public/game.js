@@ -3,10 +3,16 @@ const colours = ['blue', 'red', 'yellow', 'green']
 var gamePattern = []
 var userClickedPattern = []
 var level = 0
+window.localStorage.highScore = undefined;
 var start = false
 
-
+if(window.localStorage.highScore == undefined)
+{
+$(".score").text("High Score 0")
+}
+else {
 $(".score").text("High Score " + window.localStorage.highScore)
+}
 
 function nextSequence() {
 
@@ -24,12 +30,8 @@ function animatePress(colour) {
   }, 300)
 }
 
-
 function showGamePattern() {
-  document.getElementById("red").disabled = true;
-  document.getElementById("blue").disabled = true;
-  document.getElementById("green").disabled = true;
-  document.getElementById("yellow").disabled = true;
+
   let start = 0
   let pattern = setInterval(thisFunction, 1000)
 
@@ -46,10 +48,8 @@ function showGamePattern() {
     }
 
   }
-  document.getElementById("red").disabled = false;
-  document.getElementById("blue").disabled = false;
-  document.getElementById("green").disabled = false;
-  document.getElementById("yellow").disabled = false;
+
+
 }
 
 
