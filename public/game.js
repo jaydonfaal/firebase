@@ -92,3 +92,98 @@ $('.btn').on("click", function(event) {
     }
   }
 })
+
+
+function initializeAnimation() {
+  window.requestAnimationFrame(draw);
+}
+
+let posX = -30;
+let speed = 1;
+
+function drawArt(ctx) {
+
+  // Draw triangle
+  ctx.beginPath();
+  ctx.moveTo(-190, -80);
+  ctx.lineTo(170, -80);
+  ctx.lineTo(40, 185);
+  ctx.lineTo(-190, -80);
+  ctx.stroke();
+
+
+
+  ctx.beginPath();
+  ctx.moveTo(40, 185);
+  ctx.lineTo(85, 240);
+  ctx.lineTo(12, 240);
+  ctx.lineTo(40, 185);
+  ctx.stroke();
+
+  // ctx.beginPath();
+  // ctx.moveTo(-190, -120);
+  // ctx.stroke();
+  //
+
+  // var time2 = new Date();
+  // ctx.translate(time2.getSeconds()*10, 0);
+  ctx.save();
+
+  ctx.translate(posX,0);
+  ctx.beginPath();
+  ctx.arc(-30, -80, 90, 0, Math.PI * 2, false);
+  ctx.stroke();
+
+  let time = new Date();
+  ctx.translate(-30,-80);
+  ctx.rotate(time.getSeconds() + time.getMilliseconds() / 1000);
+
+  ctx.beginPath();
+  ctx.translate(-31,-31);
+  ctx.rect(0, 0, 62, 62);
+
+  ctx.stroke();
+
+  ctx.restore();
+
+  // ctx.save();
+  // var time = new Date();
+  // ctx.rotate(time.getSeconds() + time.getMilliseconds() / 1000);
+  // ctx.beginPath();
+  // ctx.moveTo(-100, -180);
+  // ctx.stroke();
+  // ctx.restore();
+}
+
+function moveCircle() {
+  posX += speed;
+  if (posX < -140 || posX > 120) {
+    speed = speed * -1;
+  }
+}
+
+function draw() {
+  let ctx = document.getElementById('canvas').getContext('2d');
+
+  ctx.globalCompositeOperation = 'destination-over';
+  ctx.clearRect(0, 0, 900, 700); // clear canvas
+
+  // Figure out what pen we wanna draw with
+  ctx.fillStyle = 'rgba(0, 153, 255, 1)';
+  ctx.strokeStyle = 'rgba(0, 153, 255, 1)';
+
+  ctx.save();
+  ctx.lineWidth = 6;
+  ctx.translate(450, 400);
+  moveCircle();
+  drawArt(ctx);
+  ctx.restore();
+
+
+  // Call draw when the website is ready
+  window.requestAnimationFrame(draw);
+
+}
+
+initializeAnimation();
+// draw();
