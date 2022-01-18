@@ -1,3 +1,8 @@
+.canvas {
+  background-color: #FFFFFF;
+  display: block;
+}
+
 body {
   background-image: url('./buttons/222.jpg');
   background-repeat: no-repeat;
